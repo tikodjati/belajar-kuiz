@@ -1,4 +1,5 @@
-import 'package:belajar_kuis/models/data.dart';
+import 'package:belajar_kuis/models/user.dart';
+import 'package:belajar_kuis/root.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,13 +20,12 @@ class _LoginPageState extends State<LoginPage> {
     String _password = _passwordController.text;
 
     if (_username == user1.username && _password == user1.password) {
-      setState(() {
-        isLogged = true;
-        isLoginFailed = false;
-      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Root(nama: user1.name)),
+      );
     } else {
       setState(() {
-        isLogged = false;
         isLoginFailed = true;
       });
       ScaffoldMessenger.of(context).showSnackBar(
@@ -74,20 +74,37 @@ class _LoginPageState extends State<LoginPage> {
 
                 // Username
                 // _usernameField(_usernameController),
-                _inputField(
+                // _inputField(
+                //   controller: _usernameController,
+                //   hint: 'Username',
+                //   isLoginFailed: isLoginFailed,
+                //   obscure: true,
+                // ),
+                TextField(
                   controller: _usernameController,
-                  hint: 'Username',
-                  isLoginFailed: isLoginFailed,
-                  obscure: true,
+                  decoration: InputDecoration(
+                    labelText: 'Username',
+                    border: OutlineInputBorder(),
+                    errorText: isLoginFailed ? 'Username Salah Gok!' : null,
+                  ),
                 ),
 
                 const SizedBox(height: 15),
 
                 // Password
-                _inputField(
+                // _inputField(
+                //   controller: _passwordController,
+                //   hint: 'Password',
+                //   isLoginFailed: isLoginFailed,
+                // ),
+                TextField(
                   controller: _passwordController,
-                  hint: 'Password',
-                  isLoginFailed: isLoginFailed,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                    errorText: isLoginFailed ? 'Password Salah Gok!' : null,
+                  ),
                 ),
 
                 const SizedBox(height: 20),
@@ -165,40 +182,40 @@ class _LoginPageState extends State<LoginPage> {
   //   );
   // }
 
-  Widget _inputField({
-    required TextEditingController controller,
-    required String hint,
-    required bool isLoginFailed,
-    bool obscure = false,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+  // Widget _inputField({
+  //   required TextEditingController controller,
+  //   required String hint,
+  //   required bool isLoginFailed,
+  //   bool obscure = false,
+  // }) {
+  //   return Container(
+  //     padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
 
-      child: TextField(
-        controller: controller,
-        obscureText: obscure,
-        enabled: true,
+  //     child: TextField(
+  //       controller: controller,
+  //       obscureText: obscure,
+  //       enabled: true,
 
-        decoration: InputDecoration(
-          hintText: hint,
+  //       decoration: InputDecoration(
+  //         hintText: hint,
 
-          contentPadding: const EdgeInsets.all(8.0),
+  //         contentPadding: const EdgeInsets.all(8.0),
 
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          ),
+  //         border: const OutlineInputBorder(
+  //           borderRadius: BorderRadius.all(Radius.circular(8.0)),
+  //         ),
 
-          enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+  //         enabledBorder: OutlineInputBorder(
+  //           borderRadius: const BorderRadius.all(Radius.circular(8.0)),
 
-            borderSide: BorderSide(
-              color: isLoginFailed ? Colors.red : Colors.blue,
+  //           borderSide: BorderSide(
+  //             color: isLoginFailed ? Colors.red : Colors.blue,
 
-              width: 2.0,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  //             width: 2.0,
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
